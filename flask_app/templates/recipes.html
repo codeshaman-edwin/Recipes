@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link 
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
+        rel="stylesheet" 
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
+        crossorigin="anonymous"
+    />
+    <title>RECIPES</title>
+    <!-- <h1>RECIPES</h1> -->
+</head>
+<body>
+    <br>
+    <h2>user: {{ user.first_name }}</h2>
+    <!-- <a href="/users/logout">LOGOUT</a> -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <!-- <a class="navbar-brand" href="#">RECIPES</a> -->
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="navbar-brand" href="/recipes">RECIPES</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/recipes/new">CREATE</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/users/logout">LOGOUT</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <br>
+    <br>
+    <table>
+        <h1>VIEW RECIPES</h1>
+        <thead>
+            <tr>
+                <th>|&nbsp&nbspID&nbsp&nbsp </th>
+                <th>|&nbsp&nbspNAME&nbsp&nbsp </th>
+                <th>|&nbsp&nbspDESCRIPTION&nbsp&nbsp </th>
+                <th>|&nbsp&nbspINSTRUCTIONS&nbsp&nbsp </th>
+                <th>|&nbsp&nbspUNDER 30&nbsp&nbsp </th>
+                <th>|&nbsp&nbspPOSTED BY&nbsp&nbsp </th>
+                <th>|&nbsp&nbspDATE&nbsp&nbsp </th>
+                <th>|&nbsp&nbspACTIONS&nbsp&nbsp </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for one_recipe in all_recipes %}
+                <tr>
+                    <td>|&nbsp&nbsp{{ one_recipe.id }}&nbsp&nbsp </td>
+                    <td>|&nbsp&nbsp{{ one_recipe.name }}&nbsp&nbsp </td>
+                    <td>|&nbsp&nbsp{{ one_recipe.description }}&nbsp&nbsp </td>
+                    <td>|&nbsp&nbsp{{ one_recipe.instructions }}&nbsp&nbsp </td>
+                    <td>|&nbsp&nbsp{{ one_recipe.under_30 }}&nbsp&nbsp </td>
+                    <td>|&nbsp&nbsp{{ one_recipe.user.first_name }}&nbsp&nbsp </td>
+                    <td>|&nbsp&nbsp{{ one_recipe.created_at }}&nbsp&nbsp </td>
+                    <td><a href="/recipes/view/{{ one_recipe.id }}">|&nbsp&nbspVIEW&nbsp&nbsp</a></td>
+                    {% if one_recipe.user_id == session["user_id"] %}
+                    <td><a href="/recipes/edit/{{ one_recipe.id }}">|&nbsp&nbspEDIT&nbsp&nbsp</a></td>
+                    <td><form action="/recipes/delete/{{ one_recipe.id }}" method="post">
+                        <button type="submit">DELETE</button></form></td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+</body>
+</html>
